@@ -1,11 +1,7 @@
 import sys
+import time
 from pydbus import SystemBus
 from gi.repository import GLib
-
-def unit_stopped_callback(job_id, unit_name, result):
-    if job_id == waiting_job_id:
-        print(f"Unit {unit_name} stopped with result: {result}")
-        loop.quit()
 
 if len(sys.argv) < 2:
     print("Usage: python stop_systemd_unit.py <unit_name>")
@@ -20,9 +16,16 @@ systemd = bus.get(".systemd1", "/org/freedesktop/systemd1")
 waiting_job_id = systemd.StopUnit(unit_name, "fail")
 print(f"Waiting for unit {unit_name} to stop, job id: {waiting_job_id}")
 
-loop = GLib.MainLoop()
+unit_path = systemd.GetUnit(unit_name)
+unit_proxy = bus.get(".systemd1", unit_path)
 
-signal_match = systemd.onJobRemoved.connect(unit_stopped_callback)
-loop.run()
+while True:
+    unit_active_state = unit_proxy.Get("org.freedesktop.systemd1.Unit", "ActiveState")
+    print(f"Unit {unit_name} active state: {unit_active_state}")
 
-signal_match.disconnect()
+    if unit_active_state == "inactive" or unit_active_state == "failed":
+        break
+
+    time.sleep(1)
+
+print(f"Unit {unit_name} stopped.")
