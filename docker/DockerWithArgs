@@ -1,0 +1,13 @@
+# Use whatever base image is relevant for your application
+FROM alpine
+
+# Declare the arguments. They will be available during the build stage.
+ARG GITLAB_LINK
+ARG ACCESS_TOKEN
+
+# Use the arguments in subsequent instructions, e.g.:
+RUN echo "Cloning the repository..."
+RUN git clone https://oauth2:${ACCESS_TOKEN}@${GITLAB_LINK}
+
+# Continue with the rest of your Dockerfile...
+# buildah bud --build-arg GITLAB_LINK=gitlab.com/username/repository.git --build-arg ACCESS_TOKEN=youraccesstoken -t your-image-name .
