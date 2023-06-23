@@ -1,0 +1,24 @@
+# Use Red Hat Universal Base Image 8 (ubi8)
+FROM registry.access.redhat.com/ubi8/ubi
+
+# Install necessary packages for adding a repo
+RUN dnf -y install dnf-plugins-core
+
+# Remove all existing repositories
+RUN dnf config-manager --disable "*"
+
+# Add your custom repository
+# Please replace `http://your.custom.repo` with the URL of your custom repo
+ADD http://your.custom.repo /etc/yum.repos.d/
+
+# Install PostgreSQL
+RUN dnf -y install postgresql
+
+# Clean the metadata
+RUN dnf clean all
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# Set the default command for container
+CMD ["postgres"]
