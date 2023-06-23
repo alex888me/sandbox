@@ -3,9 +3,15 @@ FROM registry.access.redhat.com/ubi8/ubi
 
 # Install necessary packages for adding a repo
 RUN dnf -y install dnf-plugins-core
-
 # Remove all existing repositories
 RUN dnf config-manager --disable "*"
+# or
+# Remove all existing repositories
+RUN rm -rf /etc/yum.repos.d/*
+
+# Copy your custom repository
+# Please replace `myrepos` with the name/location of your custom repo directory
+COPY myrepos /etc/yum.repos.d/
 
 # Add your custom repository
 # Please replace `http://your.custom.repo` with the URL of your custom repo
