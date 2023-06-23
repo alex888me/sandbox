@@ -8,4 +8,4 @@ get_line_number() {
 get_line_number
 
 # or in command line
-# get_line_number() { echo "This is line number: $((${BASH_LINENO[0]} + 1))";
+# get_line_number() { echo "This is line number: $((${BASH_LINENO[0]} + 1))"; }
