@@ -1,0 +1,9 @@
+After you have declared your files as artifacts in the .gitlab-ci.yml file and the pipeline has successfully executed, the artifacts can be downloaded from GitLab's interface. Here are the steps:
+
+    Navigate to your project's page on GitLab.
+    On the left-hand side navigation panel, click on "CI/CD" to expand the options, then click on "Pipelines".
+    You'll see a list of all pipelines that have been run for your project. Click on the one that generated the artifacts you want.
+    You should now see a visual representation of your pipeline with multiple stages (like "build", "test", "deploy", etc.). Click on the job that generated the artifacts.
+    On the job detail page, you should see a "Job artifacts" section on the right-hand side. Click the "Download" button next to the artifact you want to download.
+
+This will download a ZIP file of the artifacts. You can extract the ZIP file on your local machine to access the individual files.
