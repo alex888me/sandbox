@@ -1,0 +1,44 @@
+File Test Operators:
+
+    -b file checks if file is a block special file.
+    -c file checks if file is a character special file.
+    -d file checks if file is a directory.
+    -e file checks if file exists.
+    -f file checks if file is a regular file (as opposed to a directory or special type of file).
+    -g file checks if file has its set-group-id (sgid) flag set.
+    -h file or -L file checks if file is a symbolic link.
+    -k file checks if file has its "sticky" bit set.
+    -p file checks if file is a named pipe (FIFO).
+    -r file checks if file is readable.
+    -s file checks if file has a size greater than zero.
+    -t fd checks if file descriptor is opened on a terminal.
+    -u file checks if file has its set-user-id (suid) flag set.
+    -w file checks if file is writable.
+    -x file checks if file is executable.
+    -G file checks if file is owned by the effective group id.
+    -N file checks if file has been modified since it was last read.
+    -O file checks if file is owned by the effective user id.
+    -S file checks if file is a socket.
+    file1 -nt file2 checks if file1 is newer (according to modification date) than file2.
+    file1 -ot file2 checks if file1 is older than file2.
+    file1 -ef file2 checks if file1 and file2 have the same device and inode numbers.
+
+String Comparison Operators:
+
+    str1 = str2 checks if str1 is the same as str2.
+    str1 != str2 checks if str1 is not the same as str2.
+    str1 < str2 checks if str1 is less than str2.
+    str1 > str2 checks if str1 is greater than str2.
+    -n str1 checks if str1 has a length greater than zero.
+    -z str1 checks if str1 has a length of zero.
+
+Numeric Comparison Operators:
+
+    int1 -eq int2 checks if int1 is equal to int2.
+    int1 -ne int2 checks if int1 is not equal to int2.
+    int1 -lt int2 checks if int1 is less than int2.
+    int1 -le int2 checks if int1 is less than or equal to int2.
+    int1 -gt int2 checks if int1 is greater than int2.
+    int1 -ge int2 checks if int1 is greater than or equal to int2.
+
+Please note that Bash is space sensitive. Always remember to surround these operators with spaces.
