@@ -1,15 +1,19 @@
 from M2Crypto import Engine, m2
 
-engine_id = "pkcs11"  # The usual identifier for the OpenSSL PKCS#11 engine.
-dynamic_path = "/path/to/your/dynamic/engine.so"  # This path might vary based on your installation.
+from M2Crypto import Engine
 
-# Load the dynamic engine.
-Engine.load_dynamic_engine(engine_id, dynamic_path)
-engine = Engine.Engine_by_id(engine_id)
+engine_id = "pkcs11"  # The identifier for the OpenSSL PKCS#11 engine.
+dynamic_path = "/path/to/your/pkcs11/engine.so"  # Path to the dynamic engine.
 
-# Engine-specific initialization.
-if not engine.init():
-    raise Exception("Engine initialization failed.")
+# Initialize the dynamic engine.
+Engine.load_dynamic()
+engine = Engine.Engine(dynamic_path)
+
+if not engine:
+    raise Exception("Failed to load engine.")
+
+engine.ctrl_cmd_string("MODULE_PATH", "/path/to/your/pkcs11/module.so")
+engine.ctrl_cmd_string("PIN", "your_pin_here")
 
 from M2Crypto import SSL
 
