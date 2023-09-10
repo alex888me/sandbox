@@ -19,3 +19,5 @@ def check_port(host, port):
 # usage
 is_listening = check_port('localhost', 8000)
 print(f"Is port 8000 listening? {is_listening}")
+
+from fractions import Fraction
