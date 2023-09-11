@@ -40,36 +40,39 @@
 #
 # print(response.text)
 
-from M2Crypto import Engine, SSL
+# from M2Crypto import Engine, SSL
+#
+# Engine.load_dynamic()
+# engine = Engine.Engine("dynamic")
+# engine.ctrl_cmd_string("SO_PATH", "/path/to/your/pkcs11/engine.so")
+# engine.ctrl_cmd_string("ID", "pkcs11")
+# engine.ctrl_cmd_string("MODULE_PATH", "/path/to/your/pkcs11/module.so")
+# engine.init()
+#
+# # Assuming you need a PIN for your PKCS#11 token:
+# engine.ctrl_cmd_string("PIN", "your_pin_here")
+#
+# ctx = SSL.Context("tlsv1_2")  # Assuming you want to use TLSv1.2; adjust accordingly.
+#
+# # Set the certificate:
+# ctx.load_cert_chain(certfile="path_to_your_cert.pem")
+#
+# # Set the engine-based private key:
+# ctx.use_privatekey(engine.load_private_key("pkcs11:your_configuration_string_here", callback=None))
+#
+# import requests
+# from requests.adapters import HTTPAdapter
+# from requests.packages.urllib3.util.ssl_ import create_urllib3_context
+#
+# class M2CryptoAdapter(HTTPAdapter):
+#     def init_poolmanager(self, *args, **kwargs):
+#         context = create_urllib3_context(ssl_version=SSL.TLSv1_2_METHOD)
+#         context._ctx = ctx
+#         self.poolmanager = PoolManager(*args, ssl_context=context, **kwargs)
+#
+# s = requests.Session()
+# s.mount('https://', M2CryptoAdapter())
+# r = s.get("https://your.target.url")
 
-Engine.load_dynamic()
-engine = Engine.Engine("dynamic")
-engine.ctrl_cmd_string("SO_PATH", "/path/to/your/pkcs11/engine.so")
-engine.ctrl_cmd_string("ID", "pkcs11")
-engine.ctrl_cmd_string("MODULE_PATH", "/path/to/your/pkcs11/module.so")
-engine.init()
-
-# Assuming you need a PIN for your PKCS#11 token:
-engine.ctrl_cmd_string("PIN", "your_pin_here")
-
-ctx = SSL.Context("tlsv1_2")  # Assuming you want to use TLSv1.2; adjust accordingly.
-
-# Set the certificate:
-ctx.load_cert_chain(certfile="path_to_your_cert.pem")
-
-# Set the engine-based private key:
-ctx.use_privatekey(engine.load_private_key("pkcs11:your_configuration_string_here", callback=None))
-
-import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.ssl_ import create_urllib3_context
-
-class M2CryptoAdapter(HTTPAdapter):
-    def init_poolmanager(self, *args, **kwargs):
-        context = create_urllib3_context(ssl_version=SSL.TLSv1_2_METHOD)
-        context._ctx = ctx
-        self.poolmanager = PoolManager(*args, ssl_context=context, **kwargs)
-
-s = requests.Session()
-s.mount('https://', M2CryptoAdapter())
-r = s.get("https://your.target.url")
+openssl pkcs11 -engine pkcs11 -keyform engine -out private_key.pem -outform PEM -nocrypt -inkey "pkcs11:object=YOUR_KEY_LABEL;type=private"
+openssl pkcs11 -engine pkcs11 -inform engine -out certificate.pem -outform PEM -inkey "pkcs11:object=YOUR_CERT_LABEL;type=cert"
