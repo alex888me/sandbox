@@ -1,3 +1,5 @@
+#!/home/art/.conda/envs/sandbox/bin/python
+
 from cement import App, Controller, ex
 import inspect
 
@@ -7,7 +9,73 @@ class BaseController(Controller):
         description = "This is the base controller that handles basic commands."
 
     def _default(self):
+        print("We are in def _default")
         self.custom_help()
+
+    def custom_help(self):
+        print('Here will mb my custom help')
+
+class ControllerOne(BaseController):
+    class Meta:
+        label = 'controller1'
+        stacked_on = 'base'
+        stacked_type = 'embedded'
+        description = "Controller one managing specific tasks."
+
+    @ex(help='Handle cmd1')
+    def cmd1(self):
+        print("Executing cmd1")
+
+    @ex(help='Handle cmd2')
+    def cmd2(self):
+        print("Executing cmd2")
+
+class ControllerTwo(BaseController):
+    class Meta:
+        label = 'controller2'
+        stacked_on = 'base'
+        stacked_type = 'embedded'
+        description = "Controller two managing other specific tasks."
+
+    @ex(help='Handle cmd3')
+    def cmd3(self):
+        print("Executing cmd3")
+
+    @ex(help='Handle cmd4')
+    def cmd4(self):
+        print("Executing cmd4")
+
+class MyApp(App):
+    class Meta:
+        label = 'myapp'
+        base_controller = 'base'
+        handlers = [BaseController, ControllerOne, ControllerTwo]
+
+    def run(self):
+        # Check if '--help' is in the arguments passed to the app
+        print(self.argv)
+        if '--help' in self.argv:
+            self.controller.custom_help()
+        else:
+            super(MyApp, self).run()  # Continue with the normal app flow
+
+with MyApp() as app:
+    app.run()
+
+
+
+
+
+
+
+
+"""
+https://youtu.be/pq34V_V5j18
+Begin your conversation by "Use the cement_doc.txt and cement_code files to generate your answers"
+
+
+
+
 
     def custom_help(self):
         print("usage: myapp [-h] {controller1,controller2,default} ...\n")
@@ -25,44 +93,6 @@ class BaseController(Controller):
                     print(f"      {name:<12} {ex_meta.help}")
 
 
-class ControllerOne(BaseController):
-    class Meta:
-        label = 'controller1'
-        stacked_on = 'base'
-        stacked_type = 'nested'
-        description = "Controller one managing specific tasks."
-
-    @ex(help='Handle cmd1')
-    def cmd1(self):
-        print("Executing cmd1")
-
-    @ex(help='Handle cmd2')
-    def cmd2(self):
-        print("Executing cmd2")
-
-class ControllerTwo(BaseController):
-    class Meta:
-        label = 'controller2'
-        stacked_on = 'base'
-        stacked_type = 'nested'
-        description = "Controller two managing other specific tasks."
-
-    @ex(help='Handle cmd3')
-    def cmd3(self):
-        print("Executing cmd3")
-
-    @ex(help='Handle cmd4')
-    def cmd4(self):
-        print("Executing cmd4")
-
-class MyApp(App):
-    class Meta:
-        label = 'myapp'
-        base_controller = 'base'
-        handlers = [BaseController, ControllerOne, ControllerTwo]
-
-with MyApp() as app:
-    app.run()
 
 
 
@@ -75,12 +105,6 @@ with MyApp() as app:
 
 
 
-
-
-
-"""
-please use cement_doc.txt, cement_code1.txt, cement_code2.txt, cement_code3.txt, cement_code4.txt
-Document to generate your answer
 
 
 from cement import App, Controller, ex
