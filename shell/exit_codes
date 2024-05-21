@@ -1,0 +1,49 @@
+    0: Success - The program executed successfully without errors.
+    1: General Error - A generic or unspecified error occurred.
+    2: Misuse of Shell Built-ins - Command usage or syntax error.
+    3: Command-Line Argument Parsing Error
+    4: Configuration File Error
+    5: Network Error
+    6: Filesystem Error
+    7: Resource Unavailable
+    8: Authentication Error
+    9: Authorization Error
+    10: Database Connection Error
+    11: Database Query Error
+    12: File Not Found
+    13: Data Validation Error
+    14: Timeout Error
+    15: Dependency Error
+    16: Application Logic Error
+    17: External Service Error
+    18: API Error
+    19: Rate Limit Exceeded
+    20: Memory Error
+    21: Disk Space Error
+    22: Hardware Error
+    23: Process Management Error
+    24: Initialization Error
+    25: State Error
+    26: Unknown Error
+    27-63: Reserved for future use or application-specific errors
+    64: Command Line Usage Error
+    65: Data Format Error
+    66: Cannot Open Input
+    67: Addressee Unknown
+    68: Host Name Unknown
+    69: Service Unavailable
+    70: Internal Software Error
+    71: System Error (e.g., cannot fork)
+    72: Critical OS File Missing
+    73: Can't Create (user) Output File
+    74: Input/Output Error
+    75: Temporary Failure; User is Invited to Retry
+    76: Remote Error in Protocol
+    77: Permission Denied
+    78: Configuration Error
+    126: Command Invoked Cannot Execute - The command is found but is not executable.
+    127: Command Not Found - The command is not found.
+    128: Invalid Exit Argument - Exit status out of range.
+    128 + n: Fatal Error Signal “n” - Indicates termination by a signal.
+    130: Script Terminated by Control-C - The program was terminated by the user with Ctrl+C.
+    255: Exit Status Out of Range - Exit status codes are restricted to the range 0-255.
