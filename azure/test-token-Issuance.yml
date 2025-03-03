@@ -1,0 +1,7 @@
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      az account show
