@@ -4,17 +4,33 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: AzureResourceManagerTemplateDeployment@3
-  displayName: 'Deploy ARM Template'
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: '<Your-Service-Connection-Name>'
-    subscriptionId: '<Your-Subscription-ID>'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: '$(ResourceGroupName)'  # Set in ADO Pipeline Variables
-    location: '$(ResourceGroupLocation)'       # Set in ADO Pipeline Variables
-    templateLocation: 'Linked artifact'
-    csmFile: 'template.json'
-    csmParametersFile: 'parameters.json'
-    deploymentMode: 'Incremental'
+variables:
+  azureServiceConnection: '<your-service-connection-name>'
+  resourceGroupName: 'my-sample-resource-group'
+  location: 'switzerlandnorth'
+  templateFile: 'resource-group-template.json'
+
+stages:
+- stage: DeployResourceGroup
+  displayName: 'Deploy Resource Group'
+  jobs:
+  - deployment: DeployToProduction
+    displayName: 'Deploy to Production'
+    environment: 'Production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "Starting deployment to $(resourceGroupName) in $(location)"
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Subscription'
+              azureResourceManagerConnection: $(azureServiceConnection)
+              subscriptionId: '<your-subscription-id>'
+              location: $(location)
+              csmFile: $(templateFile)
+              overrideParameters: |
+                -resourceGroupName $(resourceGroupName)
+                -location $(location)
+              deploymentMode: 'Incremental'
+          - script: echo "##vso[task.logissue type=warning]Deployment completed for $(resourceGroupName) in $(location)"
