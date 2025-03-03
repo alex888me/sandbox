@@ -1,38 +1,27 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2021-04-01",
+      "location": "[parameters('location')]",
+      "name": "[parameters('resourceGroupName')]"
+    }
+  ],
   "parameters": {
     "resourceGroupName": {
       "type": "string",
       "metadata": {
-        "description": "Name of the Resource Group"
+        "description": "The name of the resource group to create."
       }
     },
     "location": {
       "type": "string",
-      "defaultValue": "eastus",
+      "defaultValue": "East US",
       "metadata": {
-        "description": "Azure Region where the Resource Group will be created"
+        "description": "Location for the resource group."
       }
     }
-  },
-  "resources": [
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2021-04-01",
-      "name": "DummyDeployment",
-      "properties": {
-        "mode": "Incremental",
-        "expressionEvaluationOptions": {
-          "scope": "inner"
-        },
-        "parameters": {},
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "resources": []
-        }
-      }
-    }
-  ]
+  }
 }
